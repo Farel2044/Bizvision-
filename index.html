@@ -1,0 +1,1852 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Digentra - Business Simulator</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+font-family:'Poppins',sans-serif;
+}
+
+html{
+scroll-behavior:smooth;
+}
+
+body{
+background:#0f172a;
+color:white;
+overflow-x:hidden;
+}
+
+/* Animated Background */
+
+body::before{
+content:'';
+position:fixed;
+width:100%;
+height:100%;
+background:
+radial-gradient(circle at 20% 20%,#3b82f6 0%,transparent 25%),
+radial-gradient(circle at 80% 30%,#8b5cf6 0%,transparent 25%),
+radial-gradient(circle at 50% 80%,#06b6d4 0%,transparent 25%);
+filter:blur(120px);
+z-index:-1;
+opacity:.6;
+}
+
+animation:
+backgroundMove
+15s ease infinite;
+@keyframes backgroundMove{
+
+0%{
+
+transform:
+translate(0,0);
+
+}
+
+50%{
+
+transform:
+translate(
+30px,
+-30px
+);
+
+}
+
+100%{
+
+transform:
+translate(0,0);
+
+}
+
+}
+/* Navbar */
+
+nav{
+position:fixed;
+top:0;
+left:0;
+width:100%;
+padding:20px 10%;
+display:flex;
+justify-content:space-between;
+align-items:center;
+backdrop-filter:blur(15px);
+background:rgba(255,255,255,0.05);
+z-index:1000;
+}
+
+.logo{
+font-size:28px;
+font-weight:800;
+background:linear-gradient(to right,#3b82f6,#8b5cf6);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+nav ul{
+display:flex;
+list-style:none;
+gap:30px;
+}
+
+nav ul li a{
+color:white;
+text-decoration:none;
+transition:.3s;
+}
+
+nav ul li a:hover{
+color:#60a5fa;
+}
+
+/* Hero */
+
+.hero{
+min-height:100vh;
+display:flex;
+justify-content:center;
+align-items:center;
+text-align:center;
+padding:100px 20px;
+}
+
+.hero-content{
+max-width:900px;
+}
+
+.hero h1{
+
+font-size:clamp(
+42px,
+8vw,
+80px
+);
+
+font-weight:800;
+
+line-height:1.1;
+
+margin-bottom:25px;
+
+}
+
+.gradient{
+background:linear-gradient(to right,#3b82f6,#8b5cf6,#06b6d4);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+.hero p{
+font-size:20px;
+opacity:.8;
+margin-bottom:40px;
+}
+
+.buttons{
+display:flex;
+justify-content:center;
+gap:20px;
+flex-wrap:wrap;
+}
+
+.btn{
+padding:15px 35px;
+border:none;
+border-radius:50px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+transition:.3s;
+text-decoration:none;
+}
+
+.btn-primary{
+background:linear-gradient(to right,#3b82f6,#8b5cf6);
+color:white;
+}
+
+.btn-secondary{
+background:rgba(255,255,255,.1);
+backdrop-filter:blur(10px);
+color:white;
+}
+
+.btn:hover{
+transform:translateY(-5px);
+}
+
+/* Floating Cards */
+
+.float-card{
+position:absolute;
+padding:20px;
+border-radius:20px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+animation:float 4s ease-in-out infinite;
+}
+
+.card1{
+top:20%;
+left:10%;
+}
+
+.card2{
+right:10%;
+bottom:20%;
+}
+
+@keyframes float{
+0%,100%{
+transform:translateY(0);
+}
+50%{
+transform:translateY(-15px);
+}
+}
+
+/* Responsive */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:42px;
+}
+
+nav ul{
+display:none;
+}
+
+}
+
+/* SECTION */
+
+section{
+padding:100px 10%;
+}
+
+.section-title{
+text-align:center;
+margin-bottom:60px;
+}
+
+.section-title h2{
+font-size:42px;
+margin-bottom:15px;
+}
+
+.section-title p{
+opacity:.8;
+max-width:700px;
+margin:auto;
+}
+
+/* ABOUT */
+
+.about-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:30px;
+}
+
+.about-card{
+padding:35px;
+border-radius:25px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+transition:.3s;
+}
+
+.about-card:hover{
+transform:translateY(-10px);
+}
+
+.about-card h3{
+margin-bottom:15px;
+font-size:24px;
+}
+
+/* STATS */
+
+.stats-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:25px;
+}
+
+.stat-card{
+text-align:center;
+padding:40px;
+border-radius:25px;
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+}
+
+.stat-card h3{
+font-size:48px;
+margin-bottom:10px;
+background:linear-gradient(
+to right,
+#3b82f6,
+#8b5cf6,
+#06b6d4
+);
+-webkit-background-clip:text;
+-webkit-text-fill-color:transparent;
+}
+
+/* CALCULATOR */
+
+.calculator-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(350px,1fr));
+gap:30px;
+}
+
+.calculator-card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+border-radius:25px;
+padding:35px;
+}
+
+.calculator-card h3{
+margin-bottom:20px;
+font-size:28px;
+}
+
+.calculator-card input{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,.1);
+color:white;
+font-size:16px;
+outline:none;
+}
+
+.calculator-card input::placeholder{
+color:rgba(255,255,255,.6);
+}
+
+.calculator-card button{
+width:100%;
+padding:15px;
+border:none;
+border-radius:12px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+background:linear-gradient(
+to right,
+#3b82f6,
+#8b5cf6
+);
+color:white;
+transition:.3s;
+}
+
+.calculator-card button:hover{
+transform:translateY(-3px);
+}
+
+.result-box{
+margin-top:25px;
+padding:20px;
+border-radius:15px;
+background:rgba(255,255,255,.05);
+}
+
+.result-box p{
+margin:10px 0;
+font-size:18px;
+}
+
+.result-box span{
+font-weight:700;
+color:#60a5fa;
+}
+
+/* FEATURES */
+
+.features-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.feature-card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:25px;
+text-align:center;
+transition:.4s;
+}
+
+.feature-card:hover{
+transform:translateY(-10px);
+}
+
+.icon{
+font-size:50px;
+margin-bottom:20px;
+}
+
+.feature-card h3{
+margin-bottom:15px;
+}
+
+/* TESTIMONIAL */
+
+.testimonial-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
+gap:25px;
+}
+
+.testimonial-card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:25px;
+transition:.4s;
+}
+
+.testimonial-card:hover{
+transform:translateY(-10px);
+}
+
+.testimonial-card h3{
+margin-bottom:15px;
+color:#60a5fa;
+}
+
+/* SCROLL REVEAL */
+
+.reveal{
+opacity:0;
+transform:translateY(50px);
+transition:all .8s ease;
+}
+
+.reveal.active{
+opacity:1;
+transform:translateY(0);
+}
+
+/* CONTACT */
+
+.contact-container{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:25px;
+}
+
+.contact-card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:25px;
+text-align:center;
+transition:.3s;
+}
+
+.contact-card:hover{
+transform:translateY(-10px);
+}
+
+.contact-card h3{
+margin-bottom:15px;
+color:#60a5fa;
+}
+
+/* FOOTER */
+
+footer{
+padding:60px 20px;
+text-align:center;
+margin-top:50px;
+background:rgba(255,255,255,.05);
+backdrop-filter:blur(10px);
+}
+
+footer h2{
+font-size:32px;
+margin-bottom:10px;
+}
+
+footer p{
+opacity:.8;
+}
+
+.copyright{
+margin-top:20px;
+font-size:14px;
+}
+
+/* TOP BUTTON */
+
+#topBtn{
+position:fixed;
+bottom:30px;
+right:30px;
+width:55px;
+height:55px;
+border:none;
+border-radius:50%;
+cursor:pointer;
+font-size:22px;
+color:white;
+background:linear-gradient(
+to right,
+#3b82f6,
+#8b5cf6
+);
+display:none;
+z-index:1000;
+}
+
+/* THEME BUTTON */
+
+#themeBtn{
+position:fixed;
+bottom:100px;
+right:30px;
+width:55px;
+height:55px;
+border:none;
+border-radius:50%;
+cursor:pointer;
+font-size:22px;
+background:white;
+z-index:1000;
+}
+
+/* DARK MODE */
+
+.light-mode{
+background:#f8fafc;
+color:#0f172a;
+}
+
+.light-mode nav{
+background:rgba(255,255,255,.7);
+}
+
+.light-mode .about-card,
+.light-mode .stat-card,
+.light-mode .calculator-card,
+.light-mode .feature-card,
+.light-mode .testimonial-card,
+.light-mode .contact-card{
+background:rgba(255,255,255,.8);
+color:#0f172a;
+}
+
+.light-mode footer{
+background:rgba(255,255,255,.7);
+}
+
+.dashboard-grid{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+gap:20px;
+}
+
+.dashboard-card{
+position:relative;
+overflow:hidden;
+
+padding:30px;
+border-radius:24px;
+
+background:
+rgba(255,255,255,.08);
+
+backdrop-filter:
+blur(20px);
+
+border:
+1px solid rgba(255,255,255,.1);
+
+transition:.4s;
+}
+
+.dashboard-card:hover{
+
+transform:
+translateY(-8px);
+
+box-shadow:
+0 15px 35px
+rgba(59,130,246,.15);
+
+}
+
+.dashboard-card::before{
+
+content:'';
+
+position:absolute;
+
+top:0;
+left:0;
+
+width:100%;
+height:4px;
+
+background:
+linear-gradient(
+90deg,
+#3b82f6,
+#8b5cf6,
+#06b6d4
+);
+
+}
+
+
+
+.chart-card{
+background:rgba(255,255,255,.08);
+backdrop-filter:blur(15px);
+padding:30px;
+border-radius:25px;
+margin-top:20px;
+}
+
+#advisor select{
+width:100%;
+padding:15px;
+margin-bottom:15px;
+border:none;
+border-radius:12px;
+background:rgba(255,255,255,.1);
+color:white;
+font-size:16px;
+outline:none;
+}
+
+#advisor option{
+background:#0f172a;
+color:white;
+}
+
+.reset-btn{
+margin-top:15px;
+width:100%;
+padding:15px;
+border:none;
+border-radius:15px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+
+background:
+rgba(239,68,68,.15);
+
+border:
+1px solid
+rgba(239,68,68,.3);
+
+color:#f87171;
+
+backdrop-filter:blur(15px);
+
+transition:.3s;
+}
+
+.reset-btn:hover{
+
+background:
+rgba(239,68,68,.25);
+
+transform:
+translateY(-3px);
+
+box-shadow:
+0 10px 25px
+rgba(239,68,68,.2);
+
+}
+
+.dashboard-card h3{
+
+font-size:14px;
+font-weight:500;
+
+opacity:.7;
+
+text-transform:uppercase;
+
+letter-spacing:1px;
+
+}
+
+.dashboard-card p{
+
+font-size:32px;
+font-weight:800;
+
+margin-top:10px;
+
+}
+
+button{
+
+position:relative;
+
+overflow:hidden;
+
+}
+
+button::before{
+
+content:'';
+
+position:absolute;
+
+top:0;
+left:-100%;
+
+width:100%;
+height:100%;
+
+background:
+linear-gradient(
+90deg,
+transparent,
+rgba(255,255,255,.2),
+transparent
+);
+
+transition:.6s;
+
+}
+
+button:hover::before{
+
+left:100%;
+
+}
+
+.about-card,
+.feature-card,
+.testimonial-card,
+.contact-card,
+.calculator-card{
+
+border:
+1px solid
+rgba(255,255,255,.08);
+
+box-shadow:
+0 8px 25px
+rgba(0,0,0,.15);
+
+}
+
+.about-card:hover,
+.feature-card:hover,
+.contact-card:hover,
+.testimonial-card:hover{
+
+box-shadow:
+0 15px 35px
+rgba(59,130,246,.15);
+
+}
+
+border-bottom:
+1px solid
+rgba(255,255,255,.08);
+
+box-shadow:
+0 10px 30px
+rgba(0,0,0,.1);
+</style>
+</head>
+
+<body>
+
+<nav>
+
+<div class="logo">Digentra</div>
+
+<ul>
+<li><a href="#about">About</a></li>
+<li><a href="#stats">Stats</a></li>
+<li><a href="#simulator">Simulator</a></li>
+<li><a href="#contact">Contact</a></li>
+</ul>
+
+</nav>
+
+<section class="hero">
+
+<section id="dashboard">
+
+
+<div class="section-title">
+<h2>Dashboard</h2>
+<p>Ringkasan performa bisnis Anda</p>
+</div>
+
+<div class="dashboard-grid">
+
+<div class="dashboard-card">
+<h3>Total Modal</h3>
+<p id="cardModal">Rp0</p>
+</div>
+
+<div class="dashboard-card">
+<h3>Profit</h3>
+<p id="cardProfit">Rp0</p>
+</div>
+
+<div class="dashboard-card">
+<h3>ROI</h3>
+<p id="cardROI">0%</p>
+</div>
+
+<div class="dashboard-card">
+<h3>Badge</h3>
+<p id="badge">🥉 Investor Pemula</p>
+</div>
+
+<section id="target">
+
+<div class="section-title">
+<h2>Target Profit</h2>
+<p>Progress menuju target investasi.</p>
+</div>
+
+<div class="calculator-card">
+
+<p>
+Progress Target:
+<span id="progressText">
+0%
+</span>
+</p>
+
+<div class="progress">
+
+<div
+id="progressBar"
+class="progress-bar">
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<but<button
+class="reset-btn"
+onclick="resetData()">
+Reset Data
+</button>
+
+</div>
+
+</section>
+
+
+<div class="hero-content">
+
+<h1>
+Build Your
+<span class="gradient">Business Future</span>
+</h1>
+
+<p>
+Simulasikan bisnis dan investasi Anda dengan dashboard modern, cepat, dan interaktif.
+</p>
+
+<div class="buttons">
+
+<a href="#simulator" class="btn btn-primary">
+Mulai Simulasi
+</a>
+
+<a href="#about" class="btn btn-secondary">
+Pelajari Lebih Lanjut
+</a>
+
+</div>
+
+</div>
+
+
+</section>
+
+<!-- ABOUT -->
+
+<section id="about" class="about">
+
+<div class="section-title">
+<h2>Tentang Digentra</h2>
+<p>
+Platform simulasi bisnis modern untuk membantu Anda memahami
+potensi pertumbuhan usaha dan investasi secara visual.
+</p>
+</div>
+
+<div class="about-grid">
+
+<div class="about-card">
+<h3>📊 Analisis Cepat</h3>
+<p>
+Hitung profit, ROI, dan perkembangan usaha hanya dalam hitungan detik.
+</p>
+</div>
+
+<div class="about-card">
+<h3>🚀 Simulasi Bisnis</h3>
+<p>
+Uji berbagai skenario usaha sebelum mengambil keputusan nyata.
+</p>
+</div>
+
+<div class="about-card">
+<h3>💰 Investasi Pintar</h3>
+<p>
+Prediksi pertumbuhan modal dengan kalkulasi otomatis.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- STATS -->
+
+<section id="stats" class="stats">
+
+<div class="section-title">
+<h2>Statistik Platform</h2>
+<p>Data simulasi yang ditampilkan secara interaktif.</p>
+</div>
+
+<div class="stats-grid">
+
+<div class="stat-card">
+<h3 class="counter" data-target="10000">0</h3>
+<p>Pengguna</p>
+</div>
+
+<div class="stat-card">
+<h3 class="counter" data-target="500">0</h3>
+<p>Simulasi Bisnis</p>
+</div>
+
+<div class="stat-card">
+<h3 class="counter" data-target="98">0</h3>
+<p>Kepuasan (%)</p>
+</div>
+
+<div class="stat-card">
+<h3 class="counter" data-target="50">0</h3>
+<p>Juta Rupiah Simulasi</p>
+</div>
+
+</div>
+
+</section>
+
+<section id="analytics">
+
+<div class="section-title">
+<h2>Analytics Dashboard</h2>
+<p>Visualisasi perkembangan profit bisnis.</p>
+</div>
+
+<div class="chart-card">
+
+<canvas id="profitChart"></canvas>
+
+</div>
+
+</section>
+<!-- BUSINESS SIMULATOR -->
+
+<section id="simulator">
+
+<div class="section-title">
+<h2>Business Simulator</h2>
+<p>
+Hitung keuntungan usaha bulanan dan tahunan secara instan.
+</p>
+</div>
+
+<div class="calculator-grid">
+
+<div class="calculator-card">
+
+<h3>📊 Simulasi Bisnis</h3>
+
+<input type="number" id="modal" placeholder="Modal Awal (Rp)">
+<input type="number" id="pendapatan" placeholder="Pendapatan Bulanan (Rp)">
+<input type="number" id="pengeluaran" placeholder="Pengeluaran Bulanan (Rp)">
+
+<button onclick="hitungBisnis()">
+Hitung Profit
+</button>
+
+<div class="result-box">
+
+<p>
+Profit Bulanan:
+<span id="profitBulanan">Rp0</span>
+</p>
+
+<p>
+Profit Tahunan:
+<span id="profitTahunan">Rp0</span>
+</p>
+
+</div>
+
+</div>
+
+<div class="calculator-card">
+
+<h3>💰 Investment Calculator</h3>
+
+<input type="number" id="investasi" placeholder="Modal Investasi (Rp)">
+<input type="number" id="persen" placeholder="Pertumbuhan Tahunan (%)">
+<input type="number" id="tahun" placeholder="Lama Investasi (Tahun)">
+
+<button onclick="hitungInvestasi()">
+Hitung Investasi
+</button>
+
+<div class="result-box">
+
+<p>
+Nilai Akhir:
+<span id="hasilInvestasi">Rp0</span>
+</p>
+
+<p>
+ROI:
+<span id="roi">0%</span>
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<section id="advisor">
+
+<div class="section-title">
+<h2>AI Business Advisor</h2>
+<p>
+Dapatkan rekomendasi bisnis berdasarkan jenis usaha yang dipilih.
+</p>
+</div>
+
+<div class="calculator-card">
+
+<select id="usaha">
+
+<option value="">Pilih Jenis Usaha</option>
+
+<option>Toko Roti</option>
+
+<option>Cafe</option>
+
+<option>Pertanian</option>
+
+<option>Toko Online</option>
+
+<option>Jasa Digital</option>
+
+</select>
+
+<button onclick="advisor()">
+Analisis Usaha
+</button>
+
+<div class="result-box">
+
+<p id="saran">
+Pilih jenis usaha terlebih dahulu.
+</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FEATURES -->
+
+<section id="features">
+
+<div class="section-title">
+<h2>Fitur Unggulan</h2>
+<p>
+Semua yang Anda butuhkan untuk merencanakan bisnis dan investasi dalam satu platform.
+</p>
+</div>
+
+<div class="features-grid">
+
+<div class="feature-card reveal">
+<div class="icon">📈</div>
+<h3>Analisis Real-Time</h3>
+<p>
+Lihat perkembangan bisnis dengan perhitungan instan dan akurat.
+</p>
+</div>
+
+<div class="feature-card reveal">
+<div class="icon">💰</div>
+<h3>ROI Calculator</h3>
+<p>
+Hitung potensi keuntungan investasi dengan cepat.
+</p>
+</div>
+
+<div class="feature-card reveal">
+<div class="icon">🚀</div>
+<h3>Growth Planning</h3>
+<p>
+Buat strategi pertumbuhan bisnis berdasarkan simulasi data.
+</p>
+</div>
+
+<div class="feature-card reveal">
+<div class="icon">🔒</div>
+<h3>Secure Platform</h3>
+<p>
+Desain modern dengan pengalaman pengguna yang nyaman.
+</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- TESTIMONIAL -->
+
+<section id="testimonial">
+
+<div class="section-title">
+<h2>Apa Kata Mereka?</h2>
+<p>
+Pendapat pengguna yang telah mencoba Digentra.
+</p>
+</div>
+
+<div class="testimonial-grid">
+
+<div class="testimonial-card reveal">
+<h3>Andi Pratama</h3>
+<p>
+"Dashboard yang sangat membantu untuk memahami potensi keuntungan usaha saya."
+</p>
+</div>
+
+<div class="testimonial-card reveal">
+<h3>Siti Rahma</h3>
+<p>
+"Perhitungan ROI-nya cepat dan tampilannya sangat profesional."
+</p>
+</div>
+
+<div class="testimonial-card reveal">
+<h3>Budi Santoso</h3>
+<p>
+"Saya jadi lebih percaya diri sebelum memulai bisnis."
+</p>
+</div>
+
+</div>
+
+</section>
+
+<!-- CONTACT -->
+
+<section id="contact">
+
+<div class="section-title">
+<h2>Hubungi Kami</h2>
+<p>
+Punya ide bisnis atau ingin bekerja sama? Hubungi kami.
+</p>
+</div>
+
+<div class="contact-container reveal">
+
+<div class="contact-card">
+
+<h3>📧 Email</h3>
+<p>hello@Digentra.com</p>
+
+</div>
+
+<div class="contact-card">
+
+<h3>📱 WhatsApp</h3>
+<p>+62 812-3456-7890</p>
+
+</div>
+
+<div class="contact-card">
+
+<h3>💻 GitHub</h3>
+<p>github.com/farel2044</p>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- BACK TO TOP -->
+
+<button id="topBtn">
+↑
+</button>
+
+<!-- DARK MODE -->
+
+<button id="themeBtn">
+🌙
+</button>
+
+<!-- FOOTER -->
+
+<footer>
+
+<h2>Digentra</h2>
+
+<p>
+Build Your Business Future
+</p>
+
+<p class="copyright">
+© 2026 Digentra. All Rights Reserved.
+</p>
+
+</footer>
+
+<script>
+
+const counters =
+document.querySelectorAll('.counter');
+
+counters.forEach(counter=>{
+
+const updateCounter=()=>{
+
+const target=
++counter.getAttribute('data-target');
+
+const current=
++counter.innerText;
+
+const increment=
+target/100;
+
+if(current<target){
+
+counter.innerText=
+Math.ceil(current+increment);
+
+setTimeout(updateCounter,20);
+
+}else{
+
+counter.innerText=target;
+
+}
+
+}
+
+updateCounter();
+
+});
+
+
+
+</script>
+
+<script>
+
+function formatRupiah(angka){
+
+return "Rp" +
+Number(angka)
+.toLocaleString('id-ID');
+
+}
+
+function hitungBisnis(){
+
+const pendapatan =
+Number(
+document.getElementById('pendapatan').value
+);
+
+const pengeluaran =
+Number(
+document.getElementById('pengeluaran').value
+);
+
+const profit =
+pendapatan - pengeluaran;
+
+const profitTahunan =
+profit * 12;
+
+document.getElementById(
+'profitBulanan'
+).innerText =
+formatRupiah(profit);
+
+document.getElementById(
+'profitTahunan'
+).innerText =
+formatRupiah(profitTahunan)
+buatGrafik(profit);
+
+document.getElementById(
+"cardProfit"
+).innerText =
+formatRupiah(profit);
+
+document.getElementById(
+"cardModal"
+).innerText =
+formatRupiah(
+document.getElementById(
+"modal"
+).value || 0
+);
+
+localStorage.setItem(
+"modal",
+document.getElementById("modal").value
+);
+
+localStorage.setItem(
+"pendapatan",
+document.getElementById("pendapatan").value
+);
+
+localStorage.setItem(
+"pengeluaran",
+document.getElementById("pengeluaran").value
+);
+
+localStorage.setItem(
+"profitBulanan",
+profit
+);
+
+localStorage.setItem(
+"profitTahunan",
+profitTahunan
+);
+}
+
+function hitungInvestasi(){
+
+const modal =
+Number(
+document.getElementById('investasi').value
+);
+
+const persen =
+Number(
+document.getElementById('persen').value
+);
+
+const tahun =
+Number(
+document.getElementById('tahun').value
+);
+
+const hasil =
+modal *
+Math.pow(
+(1 + persen/100),
+tahun
+);
+
+const roi =
+((hasil - modal) / modal) * 100;
+
+document.getElementById(
+'hasilInvestasi'
+).innerText =
+formatRupiah(
+hasil.toFixed(0)
+);
+
+document.getElementById(
+'roi'
+).innerText =
+roi.toFixed(2) + "%";
+
+document.getElementById(
+"cardROI"
+).innerText =
+roi.toFixed(2) + "%";
+
+updateBadge(roi);
+updateProgress(roi);
+
+localStorage.setItem(
+"investasi",
+modal
+);
+
+localStorage.setItem(
+"roi",
+roi.toFixed(2)
+);
+
+localStorage.setItem(
+"hasilInvestasi",
+hasil.toFixed(0)
+);
+
+}
+
+</script>
+
+<script>
+
+function revealElements(){
+
+const reveals =
+document.querySelectorAll('.reveal');
+
+reveals.forEach(item=>{
+
+const windowHeight =
+window.innerHeight;
+
+const revealTop =
+item.getBoundingClientRect().top;
+
+const revealPoint = 100;
+
+if(revealTop < windowHeight - revealPoint){
+
+item.classList.add('active');
+
+}
+
+});
+
+}
+
+window.addEventListener(
+'scroll',
+revealElements
+);
+
+revealElements();
+
+</script>
+
+<script>
+
+/* BACK TO TOP */
+
+const topBtn =
+document.getElementById('topBtn');
+
+window.addEventListener('scroll',()=>{
+
+if(window.scrollY > 400){
+
+topBtn.style.display='block';
+
+}else{
+
+topBtn.style.display='none';
+
+}
+
+});
+
+topBtn.addEventListener('click',()=>{
+
+window.scrollTo({
+top:0,
+behavior:'smooth'
+});
+
+});
+
+/* DARK MODE */
+
+const themeBtn =
+document.getElementById('themeBtn');
+
+themeBtn.addEventListener('click',()=>{
+
+document.body.classList.toggle(
+'light-mode'
+);
+
+if(
+document.body.classList.contains(
+'light-mode'
+)
+){
+
+themeBtn.innerHTML='☀️';
+
+}else{
+
+themeBtn.innerHTML='🌙';
+
+}
+
+});
+
+window.addEventListener(
+'load',
+()=>{
+const savedProgress =
+localStorage.getItem(
+"progress"
+);
+
+if(savedProgress){
+
+document.getElementById(
+"progressBar"
+).style.width =
+savedProgress + "%";
+
+document.getElementById(
+"progressText"
+).innerText =
+savedProgress + "%";
+
+}
+
+document.getElementById(
+'modal'
+).value =
+localStorage.getItem(
+'modal'
+) || '';
+
+document.getElementById(
+'pendapatan'
+).value =
+localStorage.getItem(
+'pendapatan'
+) || '';
+
+document.getElementById(
+'pengeluaran'
+).value =
+localStorage.getItem(
+'pengeluaran'
+) || '';
+
+document.getElementById(
+'investasi'
+).value =
+localStorage.getItem(
+'investasi'
+) || '';
+
+document.getElementById(
+'cardModal'
+).innerText =
+formatRupiah(
+localStorage.getItem(
+'modal'
+) || 0
+);
+
+document.getElementById(
+'cardProfit'
+).innerText =
+formatRupiah(
+localStorage.getItem(
+'profitBulanan'
+) || 0
+);
+
+document.getElementById(
+'cardROI'
+).innerText =
+(
+localStorage.getItem(
+'roi'
+) || 0
+) + '%';
+
+const savedProfit =
+localStorage.getItem(
+'profitBulanan'
+);
+
+if(savedProfit){
+
+buatGrafik(
+Number(savedProfit)
+);
+
+}
+
+const savedBadge =
+localStorage.getItem(
+"badge"
+);
+
+if(savedBadge){
+
+document.getElementById(
+"badge"
+).innerText =
+savedBadge;
+
+}
+});
+
+function resetData(){
+
+const yakin =
+confirm(
+"Apakah Anda yakin ingin menghapus semua data?"
+);
+
+if(yakin){
+
+localStorage.clear();
+
+location.reload();
+
+}
+
+}
+
+let profitChart;
+
+function buatGrafik(profit){
+
+const ctx =
+document.getElementById(
+'profitChart'
+);
+
+if(profitChart){
+profitChart.destroy();
+}
+
+profitChart =
+new Chart(ctx,{
+
+type:'line',
+
+data:{
+
+labels:[
+'Jan',
+'Feb',
+'Mar',
+'Apr',
+'Mei',
+'Jun'
+],
+
+datasets:[{
+
+label:'Profit',
+
+data:[
+
+profit*0.2,
+profit*0.4,
+profit*0.6,
+profit*0.8,
+profit*0.9,
+profit
+
+],
+
+fill:true
+
+}]
+
+}
+
+});
+
+const savedUsaha =
+localStorage.getItem(
+"usaha"
+);
+
+if(savedUsaha){
+
+document.getElementById(
+"usaha"
+).value =
+savedUsaha;
+
+advisor();
+
+}
+}
+
+function advisor(){
+
+const usaha =
+document.getElementById(
+"usaha"
+).value;
+
+let hasil = "";
+
+switch(usaha){
+
+case "Toko Roti":
+
+hasil =
+"🍞 Toko Roti: Permintaan stabil, cocok untuk modal menengah. Risiko rendah hingga sedang.";
+
+break;
+
+case "Cafe":
+
+hasil =
+"☕ Cafe: Potensi keuntungan tinggi, tetapi persaingan cukup ketat.";
+
+break;
+
+case "Pertanian":
+
+hasil =
+"🌾 Pertanian: Cocok untuk investasi jangka panjang. Risiko dipengaruhi cuaca dan pasar.";
+
+break;
+
+case "Toko Online":
+
+hasil =
+"🛒 Toko Online: Modal relatif kecil, mudah berkembang melalui media sosial.";
+
+break;
+
+case "Jasa Digital":
+
+hasil =
+"💻 Jasa Digital: Margin tinggi jika memiliki keahlian. Cocok untuk pemula.";
+
+break;
+
+default:
+
+hasil =
+"Silakan pilih jenis usaha.";
+
+}
+
+document.getElementById(
+"saran"
+).innerText =
+hasil;
+
+localStorage.setItem(
+"usaha",
+usaha
+);
+}
+
+function updateBadge(roi){
+
+let badgeText = "";
+
+if(roi >= 50){
+
+badgeText =
+"🥇 Investor Profesional";
+
+}else if(roi >= 20){
+
+badgeText =
+"🥈 Investor Menengah";
+
+}else{
+
+badgeText =
+"🥉 Investor Pemula";
+
+}
+
+document.getElementById(
+"badge"
+).innerText =
+badgeText;
+
+localStorage.setItem(
+"badge",
+badgeText
+);
+
+}
+
+function updateProgress(roi){
+
+const value =
+Math.min(roi,100);
+
+document.getElementById(
+"progressBar"
+).style.width =
+value + "%";
+
+document.getElementById(
+"progressText"
+).innerText =
+value.toFixed(2) + "%";
+
+localStorage.setItem(
+"progress",
+value
+);
+
+}
+
+</script>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</body>
+</html>
